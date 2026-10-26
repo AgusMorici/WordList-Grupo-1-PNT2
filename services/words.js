@@ -57,5 +57,17 @@ const getWords = () => {
         }, 1000)
     })
 }
+const getWordById = (id) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const palabra = words.find((w) => w.id === Number(id));
+            if (palabra) {
+                resolve(palabra);
+            } else {
+                reject(new Error('Palabra no encontrada'));
+            }
+        }, 500);
+    });
+};
 
-export { getWords }
+export { getWords, getWordById };

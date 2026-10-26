@@ -7,6 +7,7 @@ import {
     View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 const colors = {
     card: '#FFFFFF',
@@ -39,18 +40,22 @@ const Word = ({ word }) => {
         // Acá luego integrarás Expo Audio SDK
     };
 
+    const handleOpenDetail = () => {
+    router.push({ pathname: '/palabra', params: { id: word.id } });
+};
+
     return (
         <View style={[styles.shadow, { width: width - 32 }]}>
             <View style={styles.card}>
                 <View style={styles.header}>
-                    <View style={styles.identity}>
+                    <Pressable style={styles.identity} onPress={handleOpenDetail}>
                         <View style={styles.brandRow}>
                             <Text style={styles.brand}>{word.category}</Text>
                         </View>
                         <Text style={styles.model} numberOfLines={2}>
                             {word.word}
                         </Text>
-                    </View>
+                    </Pressable>
                     
                     {/* Botón de favorito idéntico al del profe */}
                     <Pressable
@@ -67,12 +72,12 @@ const Word = ({ word }) => {
                 </View>
 
                 {/* Sección central: Traducción y Definición / Ejemplo */}
-                <View style={styles.hero}>
+                <Pressable style={styles.hero} onPress={handleOpenDetail}>
                     <Text style={styles.translation}>{word.translation}</Text>
                     <Text style={styles.definition} numberOfLines={3}>
                         "{word.definition}"
                     </Text>
-                </View>
+                </Pressable>
 
                 {/* Footer con el botón para escuchar la palabra (equivalente al botón de rentar) */}
                 <View style={styles.footer}>

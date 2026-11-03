@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, ActivityIndicator, Text, View, Platform, StatusBar } from "react-native";
+import { StyleSheet, SafeAreaView, ActivityIndicator, Text, View, Platform, StatusBar, Pressable } from "react-native";
+import { router } from "expo-router";
 import HomeFlatList from "../components/HomeFlatList";
 import { getWords } from "../services/words";
 
@@ -25,6 +26,9 @@ const Index = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Pressable style={styles.playButton} onPress={() => router.push("/game")}>
+        <Text style={styles.playText}>Jugar</Text>
+      </Pressable>
       <HomeFlatList words={words} />
     </SafeAreaView>
   );
@@ -49,5 +53,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "#44474D",
     fontWeight: "600",
+  },
+  playButton: {
+    margin: 16,
+    padding: 14,
+    backgroundColor: "#FE6B00",
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  playText: {
+    color: "#fff",
+    fontWeight: "700",
   },
 });

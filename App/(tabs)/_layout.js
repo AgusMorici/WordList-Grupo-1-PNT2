@@ -25,6 +25,7 @@ export default function TabsLayout() {
             <Tabs.Screen name="index" options={{ title: 'Diccionario' }} />
             <Tabs.Screen name="game" options={{ title: 'Juego' }} />
             <Tabs.Screen name="favoritos" options={{ title: 'Favoritos' }} />
+            <Tabs.Screen name="palabra" options={{ href: null, headerShown: true, title: 'Detalle' }} />
         </Tabs>
     );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ScrollView, View, Text, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getWordById } from '../services/words';
+import { getWordById } from '../../services/words';
 
 const colors = {
     background: '#F7F9FB',

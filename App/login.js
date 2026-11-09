@@ -178,11 +178,11 @@ const Login = () => {
                 Alert.alert('Error', error.error);
             });
     };
-    const handleOlvideContrasena = () => {};
-    const handleBiometria = () => {};
-    const handleApple = () => {};
-    const handleGoogle = () => {};
-    const handleRegistro = () => {};
+    const handleOlvideContrasena = () => { };
+    const handleBiometria = () => { };
+    const handleApple = () => { };
+    const handleGoogle = () => { };
+    const handleRegistro = () => { };
 
     return (
         <View style={styles.screen}>

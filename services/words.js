@@ -1,7 +1,8 @@
-import { getData } from "./asyncStorage";
+import { getData, storeData } from "./asyncStorage";
 import { AUTH_KEY } from "./authentication";
 
 const BASE_URL = "http://localhost:3000/api";
+const FAVORITES_KEY = "@favoriteWords";
 
 
 const MAX_WORDS = 10;
@@ -61,7 +62,15 @@ const getWords = async () => {
             throw new Error("Failed to fetch words");
         }
         const json = await response.json();
-        return json.data;
+        const favIds = (await getData(FAVORITES_KEY)) || [];
+        return (json.data || []).map((w) => {
+            const id = String(w.id ?? w._id);
+            return {
+                ...w,
+                id,
+                favorite: favIds.includes(id),
+            };
+        });
     } catch (error) {
         console.error("Error fetching palabras:", error);
         throw error;
@@ -74,11 +83,29 @@ const getWordById = async (id) => {
             throw new Error("Palabra no encontrada");
         }
         const json = await response.json();
-        return json.data;
+        const favIds = (await getData(FAVORITES_KEY)) || [];
+        const w = json.data;
+        const wordId = String(w?.id ?? w?._id ?? id);
+        return {
+            ...w,
+            id: wordId,
+            favorite: favIds.includes(wordId),
+        };
     } catch (error) {
         console.error("Error fetching palabra:", error);
         throw error;
     }
+};
+
+const toggleFavorite = async (id) => {
+    const wordId = String(id);
+    const favIds = (await getData(FAVORITES_KEY)) || [];
+    const exists = favIds.includes(wordId);
+    const updated = exists
+        ? favIds.filter((item) => item !== wordId)
+        : [...favIds, wordId];
+    await storeData(FAVORITES_KEY, updated);
+    return !exists;
 };
 
 const addWord = async ({ word, translation, definition, category = "General" }) => {
@@ -112,4 +139,4 @@ const addWord = async ({ word, translation, definition, category = "General" }) 
     }
 };
 
-export { getWords, getWordById, addWord };
+export { getWords, getWordById, addWord, toggleFavorite };

@@ -3,7 +3,7 @@ import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getWordById } from '../../services/words';
+import { getWordById, toggleFavorite } from '../../services/words';
 
 const colors = {
     background: '#F7F9FB',
@@ -36,6 +36,11 @@ const Palabra = () => {
 
     const handlePlayAudio = () => {
         console.log(`Reproduciendo audio para: ${palabra.word}`);
+    };
+
+    const handleToggleFavorito = async () => {
+        const nuevoEstado = await toggleFavorite(palabra.id ?? palabra._id ?? id);
+        setFavorito(nuevoEstado);
     };
 
     if (loading) {
@@ -82,7 +87,7 @@ const Palabra = () => {
                     </View>
                     <TouchableOpacity
                         style={styles.fav}
-                        onPress={() => setFavorito((current) => !current)}
+                        onPress={handleToggleFavorito}
                         accessibilityRole="button"
                     >
                         <MaterialIcons

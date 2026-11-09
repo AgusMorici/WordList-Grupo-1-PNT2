@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { toggleFavorite } from '../../services/words';
 
 const colors = {
     card: '#FFFFFF',
@@ -26,12 +27,17 @@ const colors = {
 
 const Word = ({ word }) => {
     const { width } = useWindowDimensions();
+    const wordId = word.id ?? word._id;
     const [favorito, setFavorito] = useState(Boolean(word.favorite));
 
     useEffect(() => {
-        console.log('Word renderizada', word.id);
+        setFavorito(Boolean(word.favorite));
+    }, [word.favorite]);
+
+    useEffect(() => {
+        console.log('Word renderizada', wordId);
         return () => {
-            console.log('Word desmontada', word.id);
+            console.log('Word desmontada', wordId);
         };
     }, []);
 
@@ -41,7 +47,12 @@ const Word = ({ word }) => {
     };
 
     const handleOpenDetail = () => {
-        router.push(`/palabra/${word.id}`);
+        router.push(`/palabra/${wordId}`);
+    };
+
+    const handleToggleFavorito = async () => {
+        const nuevoEstado = await toggleFavorite(wordId);
+        setFavorito(nuevoEstado);
     };
 
     return (
@@ -60,7 +71,7 @@ const Word = ({ word }) => {
                     {/* Botón de favorito*/}
                     <Pressable
                         style={({ pressed }) => [styles.fav, pressed && styles.favPressed]}
-                        onPress={() => setFavorito((current) => !current)}
+                        onPress={handleToggleFavorito}
                         accessibilityRole="button"
                     >
                         <MaterialIcons

@@ -41,8 +41,8 @@ const Word = ({ word }) => {
     };
 
     const handleOpenDetail = () => {
-    router.push({ pathname: '/palabra', params: { id: word.id } });
-};
+        router.push(`/palabra/${word.id}`);
+    };
 
     return (
         <View style={[styles.shadow, { width: width - 32 }]}>

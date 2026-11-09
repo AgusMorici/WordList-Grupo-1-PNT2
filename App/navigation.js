@@ -1,13 +1,10 @@
-import {Stack } from 'expo-router';
-import { StackScreen } from 'expo-router/build/layouts/stack-utils';
+import { Stack } from 'expo-router';
+
 export default function Navigation() {
     return (
-       <Stack>
-        <StackScreen name="(tabs)" options= {{headerShown:false}} />
-        {/*<Stack.Screen name="palabra" options={{ title: 'Detalle'  }} />
-        <Stack.Screen name= "index" options= {{headerShown:false}}/> 
-        <Stack.Screen name="palabra" options={{ title: 'Detalle'  }} />
-        <Stack.Screen name="game" options={{ title: 'Juego' }} /> */}
-        </Stack>  
-    )
+        <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="palabra/[id]" options={{ headerShown: false }} />
+        </Stack>
+    );
 }

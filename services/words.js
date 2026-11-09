@@ -1,3 +1,9 @@
+import { getData } from "./asyncStorage";
+import { AUTH_KEY } from "./authentication";
+
+const BASE_URL = "http://localhost:3000/api";
+
+
 const MAX_WORDS = 10;
 
 const categorias = [
@@ -33,7 +39,7 @@ const categorias = [
 const crearPalabra = (index) => {
     const categoriaObj = categorias[index % categorias.length];
     const item = categoriaObj.items[index % categoriaObj.items.length];
-    
+
     return {
         id: index + 1,
         word: item.word,
@@ -48,43 +54,62 @@ const crearPalabra = (index) => {
 
 const words = Array.from({ length: MAX_WORDS }, (_, index) => crearPalabra(index))
 
-const getWords = () => {
-    // TODO: Implementar la lógica para obtener las palabras desde una API.
-    // Por ahora, devolvemos las palabras hardcodeadas.
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve([...words])
-        }, 1000)
-    })
-}
-const getWordById = (id) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const palabra = words.find((w) => w.id === Number(id));
-            if (palabra) {
-                resolve(palabra);
-            } else {
-                reject(new Error('Palabra no encontrada'));
-            }
-        }, 500);
-    });
+const getWords = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/words`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch words");
+        }
+        const json = await response.json();
+        return json.data;
+    } catch (error) {
+        console.error("Error fetching palabras:", error);
+        throw error;
+    }
+};
+const getWordById = async (id) => {
+    try {
+        const response = await fetch(`${BASE_URL}/words/${id}`);
+        if (!response.ok) {
+            throw new Error("Palabra no encontrada");
+        }
+        const json = await response.json();
+        return json.data;
+    } catch (error) {
+        console.error("Error fetching palabra:", error);
+        throw error;
+    }
 };
 
-const addWord = ({ word, translation, definition, category = 'General' }) => {
-    return new Promise((resolve) => {
-        const nuevaPalabra = {
-            id: words.length + 1,
-            word,
-            translation,
-            definition,
-            category,
-            favorite: false,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+const addWord = async ({ word, translation, definition, category = "General" }) => {
+    try {
+        const authData = await getData(AUTH_KEY);
+        const token = authData?.token;
+        const headers = {
+            "Content-Type": "application/json",
         };
-        words.unshift(nuevaPalabra);
-        resolve(nuevaPalabra);
-    });
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+        const response = await fetch(`${BASE_URL}/words`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+                word,
+                translation,
+                definition,
+                category,
+            }),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to create word");
+        }
+        const json = await response.json();
+        return json.data;
+    } catch (error) {
+        console.error("Error adding palabra:", error);
+        throw error;
+    }
 };
 
 export { getWords, getWordById, addWord };

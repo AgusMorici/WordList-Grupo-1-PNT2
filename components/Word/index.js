@@ -56,8 +56,8 @@ const Word = ({ word }) => {
                             {word.word}
                         </Text>
                     </Pressable>
-                    
-                    {/* Botón de favorito idéntico al del profe */}
+
+                    {/* Botón de favorito*/}
                     <Pressable
                         style={({ pressed }) => [styles.fav, pressed && styles.favPressed]}
                         onPress={() => setFavorito((current) => !current)}
@@ -79,7 +79,7 @@ const Word = ({ word }) => {
                     </Text>
                 </Pressable>
 
-                {/* Footer con el botón para escuchar la palabra (equivalente al botón de rentar) */}
+                {/* Footer con el botón para escuchar la palabra */}
                 <View style={styles.footer}>
                     <View style={styles.priceBlock}>
                         <Text style={styles.perDay}>Práctica auditiva</Text>

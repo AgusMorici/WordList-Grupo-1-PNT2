@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ScrollView, View, Text, Pressable, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -80,8 +80,8 @@ const Palabra = () => {
                         <Text style={styles.category}>{palabra.category}</Text>
                         <Text style={styles.word}>{palabra.word}</Text>
                     </View>
-                    <Pressable
-                        style={({ pressed }) => [styles.fav, pressed && styles.favPressed]}
+                    <TouchableOpacity
+                        style={styles.fav}
                         onPress={() => setFavorito((current) => !current)}
                         accessibilityRole="button"
                     >
@@ -90,7 +90,7 @@ const Palabra = () => {
                             size={24}
                             color={favorito ? colors.orange : colors.onSurfaceVariant}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.box}>
@@ -103,14 +103,14 @@ const Palabra = () => {
                     <Text style={styles.definition}>"{palabra.definition}"</Text>
                 </View>
 
-                <Pressable
-                    style={({ pressed }) => [styles.listen, pressed && styles.listenPressed]}
+                <TouchableOpacity
+                    style={styles.listen}
                     onPress={handlePlayAudio}
                     accessibilityRole="button"
                 >
                     <MaterialIcons name="volume-up" size={20} color="#FFFFFF" />
                     <Text style={styles.listenText}>Escuchar pronunciación</Text>
-                </Pressable>
+                </TouchableOpacity>
             </ScrollView>
         </View>
     );

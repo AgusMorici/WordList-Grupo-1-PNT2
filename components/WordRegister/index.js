@@ -47,19 +47,46 @@ const WordRegister = ({ onAddWord }) => {
     const [definition, setDefinition] = useState('');
 
     const handleSave = async () => {
-        if (!word.trim() || !translation.trim()) {
-            Alert.alert('Error', 'Completá al menos la palabra y su traducción');
+        console.log('Guardar en el Diccionario');
+        console.log('Palabra en Inglés:', word);
+        console.log('Traducción:', translation);
+        console.log('Definición:', definition);
+
+        const data = {
+            word: word.trim(),
+            translation: translation.trim(),
+            definition: definition.trim(),
+        };
+        console.log('Data to send:', data);
+
+        // Validar que la palabra y la traducción no sean vacías
+        if (data.word === '' || data.translation === '') {
+            Alert.alert('Error', 'La palabra en inglés y la traducción no pueden estar vacías');
             return;
         }
-        if (onAddWord) {
-            onAddWord({ word, translation, definition });
-        } else {
-            await addWord({ word, translation, definition });
+
+        // Validar que la definición no sea vacía
+        if (data.definition === '') {
+            Alert.alert('Error', 'Por favor agregá un ejemplo o definición');
+            return;
         }
-        setWord('');
-        setTranslation('');
-        setDefinition('');
-        router.push('/');
+
+        try {
+            if (onAddWord) {
+                onAddWord(data);
+            } else {
+                const response = await addWord(data);
+                console.log('Response:', response);
+            }
+            Alert.alert('Registro exitoso', 'La palabra se guardó correctamente en el diccionario');
+            setWord('');
+            setTranslation('');
+            setDefinition('');
+            router.push('/');
+        } catch (error) {
+            console.error('Error guardando palabra:', error);
+            Alert.alert('Error', 'Error al guardar la palabra: ' + error.message);
+        }
     };
 
     return (

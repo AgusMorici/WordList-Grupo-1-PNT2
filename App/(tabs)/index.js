@@ -1,11 +1,12 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from 'expo-router';
-import { getWords } from '../../services/words';
+import { getWords, getUserGameStats } from '../../services/words';
 import HomeFlatList from '../../components/HomeFlatList';
 
 const Index = () => {
   const [words, setWords] = useState([]);
+  const [gameStats, setGameStats] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -15,12 +16,16 @@ const Index = () => {
           setWords(words);
         })
         .catch(error => console.error('Error fetching words:', error));
+
+      getUserGameStats()
+        .then(stats => setGameStats(stats))
+        .catch(error => console.error('Error fetching stats:', error));
     }, [])
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <HomeFlatList words={words} />
+      <HomeFlatList words={words} gameStats={gameStats} />
     </SafeAreaView>
   );
 };

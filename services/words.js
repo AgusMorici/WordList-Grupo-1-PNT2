@@ -108,7 +108,7 @@ const toggleFavorite = async (id) => {
     return !exists;
 };
 
-const addWord = async ({ word, translation, definition, category = "General" }) => {
+const addWord = async ({ word }) => {
     try {
         const authData = await getData(AUTH_KEY);
         const token = authData?.token;
@@ -118,20 +118,18 @@ const addWord = async ({ word, translation, definition, category = "General" }) 
         if (token) {
             headers["Authorization"] = `Bearer ${token}`;
         }
-        const response = await fetch(`${BASE_URL}/words`, {
+        const response = await fetch(`${BASE_URL}/words/ia`, {
             method: "POST",
             headers,
             body: JSON.stringify({
                 word,
-                translation,
-                definition,
-                category,
             }),
         });
+        const json = await response.json().catch(() => ({}));
         if (!response.ok) {
-            throw new Error("Failed to create word");
+            console.error("Detalle error backend:", response.status, json);
+            throw new Error(json.message || json.error || `Failed to create word (status ${response.status})`);
         }
-        const json = await response.json();
         return json.data;
     } catch (error) {
         console.error("Error adding palabra:", error);
@@ -139,4 +137,53 @@ const addWord = async ({ word, translation, definition, category = "General" }) 
     }
 };
 
-export { getWords, getWordById, addWord, toggleFavorite };
+const registerGameAttempt = async (palabraId, isCorrect) => {
+    try {
+        const authData = await getData(AUTH_KEY);
+        const token = authData?.token;
+        if (!token || !palabraId) return null;
+
+        const response = await fetch(`${BASE_URL}/users/me/words/${palabraId}/game-attempt`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({ isCorrect }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to register game attempt");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error registrando intento de juego:", error);
+        return null;
+    }
+};
+
+const getUserGameStats = async () => {
+    try {
+        const authData = await getData(AUTH_KEY);
+        const userId = authData?.user?._id ?? authData?.user?.id;
+        const token = authData?.token;
+        if (!userId) return [];
+
+        const headers = {};
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(`${BASE_URL}/users/${userId}`, { headers });
+        if (!response.ok) {
+            throw new Error("Failed to fetch user stats");
+        }
+        const json = await response.json();
+        return json.data?.gameStats || [];
+    } catch (error) {
+        console.error("Error obteniendo gameStats:", error);
+        return [];
+    }
+};
+
+export { getWords, getWordById, addWord, toggleFavorite, registerGameAttempt, getUserGameStats };

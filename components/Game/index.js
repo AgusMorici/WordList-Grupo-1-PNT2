@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getWords } from '../../services/words';
+import { getWords, registerGameAttempt } from '../../services/words';
 
 const colors = {
     surface: '#F7F9FB',
@@ -65,6 +65,9 @@ const Game = () => {
         setResultado(acerto ? 'correcto' : 'incorrecto');
         setTotal((t) => t + 1);
         if (acerto) setPuntaje((p) => p + 1);
+
+        const palabraId = palabraActual.id ?? palabraActual._id;
+        registerGameAttempt(palabraId, acerto);
     };
 
     const siguiente = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { addWord } from '../../services/words';
@@ -24,18 +24,18 @@ function SeccionTitulo({ icon, titulo }) {
     );
 }
 
-function InputField({ label, placeholder, value, onChangeText, multiline = false }) {
+function InputField({ label, placeholder, value, onChangeText, editable = true }) {
     return (
         <View style={styles.field}>
             <Text style={styles.fieldLabel}>{label}</Text>
             <TextInput
-                style={[styles.input, multiline && styles.textArea]}
+                style={styles.input}
                 placeholder={placeholder}
                 placeholderTextColor="#9CA3AF"
                 value={value}
                 onChangeText={onChangeText}
-                multiline={multiline}
-                numberOfLines={multiline ? 4 : 1}
+                editable={editable}
+                autoCapitalize="none"
             />
         </View>
     );
@@ -43,49 +43,34 @@ function InputField({ label, placeholder, value, onChangeText, multiline = false
 
 const WordRegister = ({ onAddWord }) => {
     const [word, setWord] = useState('');
-    const [translation, setTranslation] = useState('');
-    const [definition, setDefinition] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSave = async () => {
-        console.log('Guardar en el Diccionario');
-        console.log('Palabra en Inglés:', word);
-        console.log('Traducción:', translation);
-        console.log('Definición:', definition);
-
         const data = {
             word: word.trim(),
-            translation: translation.trim(),
-            definition: definition.trim(),
         };
-        console.log('Data to send:', data);
 
-        // Validar que la palabra y la traducción no sean vacías
-        if (data.word === '' || data.translation === '') {
-            Alert.alert('Error', 'La palabra en inglés y la traducción no pueden estar vacías');
-            return;
-        }
-
-        // Validar que la definición no sea vacía
-        if (data.definition === '') {
-            Alert.alert('Error', 'Por favor agregá un ejemplo o definición');
+        if (data.word === '') {
+            Alert.alert('Error', 'Por favor ingresá una palabra en inglés');
             return;
         }
 
         try {
+            setLoading(true);
             if (onAddWord) {
-                onAddWord(data);
+                await onAddWord(data);
             } else {
                 const response = await addWord(data);
                 console.log('Response:', response);
             }
-            Alert.alert('Registro exitoso', 'La palabra se guardó correctamente en el diccionario');
+            Alert.alert('Registro exitoso', 'la palabra se guardó en el diccionario');
             setWord('');
-            setTranslation('');
-            setDefinition('');
             router.push('/');
         } catch (error) {
             console.error('Error guardando palabra:', error);
             Alert.alert('Error', 'Error al guardar la palabra: ' + error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -93,9 +78,6 @@ const WordRegister = ({ onAddWord }) => {
         <View style={styles.screen}>
             <View style={styles.header}>
                 <View style={styles.headerIdentity}>
-                    <TouchableOpacity style={styles.iconButton} onPress={() => router.back()}>
-                        <MaterialIcons name="arrow-back" size={24} color={colors.onSurface} />
-                    </TouchableOpacity>
                     <View>
                         <Text style={styles.headerTitle}>Registrar Palabra</Text>
                         <Text style={styles.headerSubtitle}>Nuevo vocabulario</Text>
@@ -105,15 +87,35 @@ const WordRegister = ({ onAddWord }) => {
 
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 <View style={styles.card}>
-                    <SeccionTitulo icon="book" titulo="Detalles de la palabra" />
-                    <InputField label="Palabra en Inglés" placeholder="Ej. Resilience" value={word} onChangeText={setWord} />
-                    <InputField label="Traducción" placeholder="Ej. Resiliencia" value={translation} onChangeText={setTranslation} />
-                    <InputField label="Ejemplo / Definición" placeholder="Ej. The resilience of the team..." value={definition} onChangeText={setDefinition} multiline />
+                    <SeccionTitulo icon="auto-awesome" titulo="Generación con IA" />
+                    <Text style={styles.helperText}>
+                        Escribí únicamente la palabra. Nuestra IA se encargará de generar automáticamente su traducción, definición y categoría.
+                    </Text>
+                    <InputField
+                        label="Palabra"
+                        placeholder="Ej. Resilience"
+                        value={word}
+                        onChangeText={setWord}
+                        editable={!loading}
+                    />
                 </View>
 
-                <TouchableOpacity style={styles.payButton} onPress={handleSave}>
-                    <MaterialIcons name="check" size={20} color={colors.onSecondary} />
-                    <Text style={styles.payText}>Guardar en el Diccionario</Text>
+                <TouchableOpacity
+                    style={[styles.payButton, loading && styles.payButtonDisabled]}
+                    onPress={handleSave}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <>
+                            <ActivityIndicator size="small" color={colors.onSecondary} />
+                            <Text style={styles.payText}>Generando con IA...</Text>
+                        </>
+                    ) : (
+                        <>
+                            <MaterialIcons name="auto-awesome" size={20} color={colors.onSecondary} />
+                            <Text style={styles.payText}>Generar y Guardar en el Diccionario</Text>
+                        </>
+                    )}
                 </TouchableOpacity>
             </ScrollView>
         </View>
@@ -138,10 +140,10 @@ const styles = StyleSheet.create({
     card: { backgroundColor: colors.white, borderRadius: 12, padding: 16, gap: 12, elevation: 2 },
     seccionHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 },
     seccionTitulo: { fontSize: 16, fontWeight: '600', color: colors.primary },
+    helperText: { fontSize: 13, lineHeight: 18, color: colors.onSurfaceVariant },
     field: { gap: 4 },
     fieldLabel: { fontSize: 10, fontWeight: '700', color: colors.onSurfaceVariant, textTransform: 'uppercase' },
     input: { backgroundColor: colors.surfaceLow, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, fontSize: 14, color: colors.primary },
-    textArea: { height: 90, textAlignVertical: 'top' },
     payButton: {
         height: 56,
         borderRadius: 12,
@@ -152,6 +154,9 @@ const styles = StyleSheet.create({
         gap: 8,
         marginTop: 4,
         elevation: 4,
+    },
+    payButtonDisabled: {
+        opacity: 0.7,
     },
     payText: { fontSize: 14, fontWeight: '700', color: colors.onSecondary },
 });

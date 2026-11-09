@@ -16,7 +16,7 @@ const getIcon = (routeName, color, size) => {
             return <Ionicons name="home" color={color} size={size} />;
         case 'game':
             return <Ionicons name="game-controller-outline" color={color} size={size} />;
-        case 'favoritos':
+        case 'favorites':
             return <Ionicons name="heart-outline" color={color} size={size} />;
     }
     return <Ionicons name="home" color={color} size={size} />;
@@ -47,7 +47,7 @@ export default function TabsLayout() {
         >
             <Tabs.Screen name="index" options={{ title: 'Diccionario' }} />
             <Tabs.Screen name="game" options={{ title: 'Juego' }} />
-            <Tabs.Screen name="favoritos" options={{ title: 'Favoritos' }} />
+            <Tabs.Screen name="favorites" options={{ title: 'Favoritos' }} />
             <Tabs.Screen name="palabra" options={{ href: null, headerShown: true, title: 'Detalle' }} />
         </Tabs>
     );

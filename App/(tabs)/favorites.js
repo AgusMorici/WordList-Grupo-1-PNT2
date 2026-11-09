@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-export default function Favoritos() {
+export default function Favorites() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Favoritos (próximamente)</Text>

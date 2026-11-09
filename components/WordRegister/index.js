@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { addWord } from '../../services/words';
 
 const colors = {
     surface: '#F7F9FB',
@@ -44,21 +46,29 @@ const WordRegister = ({ onAddWord }) => {
     const [translation, setTranslation] = useState('');
     const [definition, setDefinition] = useState('');
 
-    const handleSave = () => {
-        if (!word || !translation) return;
-        onAddWord({ word, translation, definition });
+    const handleSave = async () => {
+        if (!word.trim() || !translation.trim()) {
+            Alert.alert('Error', 'Completá al menos la palabra y su traducción');
+            return;
+        }
+        if (onAddWord) {
+            onAddWord({ word, translation, definition });
+        } else {
+            await addWord({ word, translation, definition });
+        }
         setWord('');
         setTranslation('');
         setDefinition('');
+        router.push('/');
     };
 
     return (
         <View style={styles.screen}>
             <View style={styles.header}>
                 <View style={styles.headerIdentity}>
-                    <View style={styles.iconButton}>
+                    <TouchableOpacity style={styles.iconButton} onPress={() => router.back()}>
                         <MaterialIcons name="arrow-back" size={24} color={colors.onSurface} />
-                    </View>
+                    </TouchableOpacity>
                     <View>
                         <Text style={styles.headerTitle}>Registrar Palabra</Text>
                         <Text style={styles.headerSubtitle}>Nuevo vocabulario</Text>

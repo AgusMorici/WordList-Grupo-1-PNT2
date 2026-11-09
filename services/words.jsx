@@ -53,7 +53,7 @@ const getWords = () => {
     // Por ahora, devolvemos las palabras hardcodeadas.
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve(words)
+            resolve([...words])
         }, 1000)
     })
 }
@@ -70,4 +70,21 @@ const getWordById = (id) => {
     });
 };
 
-export { getWords, getWordById };
+const addWord = ({ word, translation, definition, category = 'General' }) => {
+    return new Promise((resolve) => {
+        const nuevaPalabra = {
+            id: words.length + 1,
+            word,
+            translation,
+            definition,
+            category,
+            favorite: false,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
+        words.unshift(nuevaPalabra);
+        resolve(nuevaPalabra);
+    });
+};
+
+export { getWords, getWordById, addWord };

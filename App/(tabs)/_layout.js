@@ -14,6 +14,8 @@ const getIcon = (routeName, color, size) => {
     switch (routeName) {
         case 'index':
             return <Ionicons name="home" color={color} size={size} />;
+        case 'register':
+            return <Ionicons name="add-circle-outline" color={color} size={size} />;
         case 'game':
             return <Ionicons name="game-controller-outline" color={color} size={size} />;
         case 'favorites':
@@ -46,6 +48,7 @@ export default function TabsLayout() {
             })}
         >
             <Tabs.Screen name="index" options={{ title: 'Diccionario' }} />
+            <Tabs.Screen name="register" options={{ title: 'Agregar' }} />
             <Tabs.Screen name="game" options={{ title: 'Juego' }} />
             <Tabs.Screen name="favorites" options={{ title: 'Favoritos' }} />
         </Tabs>

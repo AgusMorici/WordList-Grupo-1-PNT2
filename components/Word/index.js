@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import * as Speech from 'expo-speech';
 import { toggleFavorite } from '../../services/words';
 
 const colors = {
@@ -42,8 +43,11 @@ const Word = ({ word }) => {
     }, []);
 
     const handlePlayAudio = () => {
-        console.log(`Reproduciendo audio para: ${word.word}`);
-        // Acá luego integrarás Expo Audio SDK
+        Speech.stop();
+        Speech.speak(word.word, {
+            language: 'en-US',
+            rate: 0.9,
+        });
     };
 
     const handleOpenDetail = () => {
@@ -52,6 +56,7 @@ const Word = ({ word }) => {
 
     const handleToggleFavorito = async () => {
         const nuevoEstado = await toggleFavorite(wordId);
+        word.favorite = nuevoEstado;
         setFavorito(nuevoEstado);
     };
 

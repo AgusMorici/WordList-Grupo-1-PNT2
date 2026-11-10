@@ -18,9 +18,13 @@ const getData = async (key) => {
     }
 };
 
-const clearData = async () => {
+const clearData = async (key) => {
     try {
-        await AsyncStorage.clear();
+        if (key) {
+            await AsyncStorage.removeItem(key);
+        } else {
+            await AsyncStorage.clear();
+        }
     } catch (error) {
         console.error('Error clearing data', error);
     }

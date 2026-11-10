@@ -192,10 +192,6 @@ const Favorites = () => {
                         </Text>
                     </View>
                 </View>
-                <View style={styles.encabezadoAcciones}>
-                    <IconoRedondo name="add" onPress={() => router.push('/register')} />
-                    <IconoRedondo name="logout" onPress={handleLogout} />
-                </View>
             </View>
 
             <Pestanas

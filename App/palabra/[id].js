@@ -3,6 +3,7 @@ import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Speech from 'expo-speech';
 import { getWordById, toggleFavorite } from '../../services/words';
 
 const colors = {
@@ -35,7 +36,11 @@ const Palabra = () => {
     }, [id]);
 
     const handlePlayAudio = () => {
-        console.log(`Reproduciendo audio para: ${palabra.word}`);
+        Speech.stop();
+        Speech.speak(palabra.word, {
+            language: 'en-US',
+            rate: 0.9,
+        });
     };
 
     const handleToggleFavorito = async () => {

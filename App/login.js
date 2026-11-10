@@ -233,7 +233,7 @@ const Login = () => {
 
                     <View style={styles.formCard}>
                         <Field
-                            label="Correo electrónico o número móvil"
+                            label="Correo electrónico"
                             hint="Requerido"
                             icon="mail"
                             value={email}

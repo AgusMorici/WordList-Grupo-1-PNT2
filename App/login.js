@@ -19,33 +19,29 @@ import { login } from '../services/authentication';
 import { useAuth } from '../hooks/useAuth';
 
 const colors = {
-    surface: '#F7F9FB',
-    surfaceLow: '#F2F4F6',
-    surfaceHigh: '#E6E8EA',
-    surfaceContainer: '#ECEEF0',
-    surfaceHighest: '#E0E3E5',
+    surface: '#FFFaf5',
+    surfaceLow: '#FFF7ED',
+    surfaceHigh: '#FFEDD5',
+    surfaceContainer: '#FED7AA',
+    surfaceHighest: '#FDBA74',
     surfaceLowest: '#FFFFFF',
     primary: '#000412',
-    primaryContainer: '#0F1E36',
+    primaryContainer: '#9A3412',
     onPrimary: '#FFFFFF',
     onSurface: '#191C1E',
-    onSurfaceVariant: '#44474D',
-    outline: '#75777E',
-    outlineVariant: '#C5C6CE',
-    secondary: '#A04100',
+    onSurfaceVariant: '#7C2D12',
+    outline: '#EA580C',
+    outlineVariant: '#FB923C',
+    secondary: '#EA580C',
     secondaryContainer: '#FE6B00',
-    secondaryFixed: '#FFDBCC',
-    onSecondaryFixed: '#351000',
+    secondaryFixed: '#FFEDD5',
+    onSecondaryFixed: '#9A3412',
 };
 
 function Emblem() {
     return (
         <View style={styles.emblem}>
-            <View style={styles.emblemGlyph}>
-                <View style={styles.emblemChevron} />
-                <View style={styles.emblemNotch} />
-                <View style={styles.emblemDot} />
-            </View>
+            <MaterialIcons name="menu-book" size={26} color={colors.onPrimary} />
         </View>
     );
 }
@@ -86,8 +82,8 @@ function Field({
                     value={value}
                     onChangeText={onChangeText}
                     placeholder={placeholder}
-                    placeholderTextColor="rgba(117, 119, 126, 0.6)"
-                    selectionColor={colors.primaryContainer}
+                    placeholderTextColor="rgba(154, 52, 18, 0.45)"
+                    selectionColor={colors.secondaryContainer}
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={secureTextEntry}
@@ -212,22 +208,22 @@ const Login = () => {
                                 <View style={styles.brandNameRow}>
                                     <Text style={styles.brandName}>WORDLIST</Text>
                                     <View style={styles.driveChip}>
-                                        <Text style={styles.driveChipText}>Learn</Text>
+                                        <Text style={styles.driveChipText}>AI</Text>
                                     </View>
                                 </View>
-                                <Text style={styles.brandTag}>Vocabulary & Practice</Text>
+                                <Text style={styles.brandTag}>English Dictionary & Game</Text>
                             </View>
                         </View>
 
                         <View style={styles.accessPill}>
                             <Animated.View style={[styles.accessDot, { opacity: pulse }]} />
-                            <Text style={styles.accessText}>Acceso Estudiantes</Text>
-                            <MaterialIcons name="verified-user" size={14} color={colors.secondary} />
+                            <Text style={styles.accessText}>Práctica Interactiva</Text>
+                            <MaterialIcons name="auto-awesome" size={14} color={colors.secondary} />
                         </View>
 
-                        <Text style={styles.heading}>Bienvenido de nuevo</Text>
+                        <Text style={styles.heading}>Tu Diccionario Personal</Text>
                         <Text style={styles.subtitle}>
-                            Inicia sesión para gestionar tu diccionario personal y practicar tu vocabulario.
+                            Ingresá a tu cuenta para aprender nuevas palabras en otro idioma y poner a prueba tu memoria.
                         </Text>
                     </View>
 
@@ -238,7 +234,7 @@ const Login = () => {
                             icon="mail"
                             value={email}
                             onChangeText={setEmail}
-                            placeholder="admin@admin.com"
+                            placeholder="usuario@test.com"
                             focused={focused === 'email'}
                             onFocus={() => setFocused('email')}
                             onBlur={() => setFocused(null)}
@@ -279,14 +275,14 @@ const Login = () => {
                                         <MaterialIcons name="check" size={16} color={colors.onPrimary} />
                                     ) : null}
                                 </View>
-                                <Text style={styles.rememberText}>Recordarme en este dispositivo</Text>
+                                <Text style={styles.rememberText}>Mantener sesión activa</Text>
                             </Pressable>
                             <Pressable
                                 accessibilityRole="button"
                                 onPress={handleOlvideContrasena}
                                 hitSlop={8}
                             >
-                                <Text style={styles.forgot}>¿Olvidaste tu contraseña?</Text>
+                                <Text style={styles.forgot}>¿Olvidaste tu clave?</Text>
                             </Pressable>
                         </View>
 
@@ -298,8 +294,8 @@ const Login = () => {
                                 pressed && styles.pressed,
                             ]}
                         >
-                            <Text style={styles.loginLabel}>Iniciar Sesión</Text>
-                            <MaterialIcons name="arrow-forward" size={20} color={colors.onPrimary} />
+                            <Text style={styles.loginLabel}>Entrar a WordList</Text>
+                            <MaterialIcons name="login" size={20} color={colors.onPrimary} />
                         </Pressable>
                     </View>
 
@@ -314,13 +310,13 @@ const Login = () => {
                         <View style={styles.faceIcon}>
                             <MaterialIcons name="face" size={18} color={colors.primaryContainer} />
                         </View>
-                        <Text style={styles.faceLabel}>Ingresar con Face ID / Huella</Text>
+                        <Text style={styles.faceLabel}>Acceso rápido biométrico</Text>
                         <MaterialIcons name="fingerprint" size={18} color={colors.outline} />
                     </Pressable>
 
                     <View style={styles.divider}>
                         <View style={styles.dividerLine} />
-                        <Text style={styles.dividerText}>O continúa con</Text>
+                        <Text style={styles.dividerText}>O ingresá con</Text>
                         <View style={styles.dividerLine} />
                     </View>
 
@@ -342,16 +338,16 @@ const Login = () => {
                     </View>
 
                     <Text style={styles.signup}>
-                        ¿No tienes una cuenta aún?{' '}
+                        ¿Todavía no tenés cuenta?{' '}
                         <Text style={styles.signupLink} onPress={handleRegistro} suppressHighlighting>
-                            Registrarse
+                            Crear cuenta
                         </Text>
                     </Text>
 
                     <View style={styles.seal}>
-                        <MaterialIcons name="lock" size={15} color={colors.outline} />
+                        <MaterialIcons name="school" size={15} color={colors.outline} />
                         <Text style={styles.sealText}>
-                            Conexión encriptada de 256 bits · WordList Security
+                            WordList · Aprendizaje con Inteligencia Artificial
                         </Text>
                     </View>
                 </ScrollView>
@@ -372,99 +368,66 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: colors.surface,
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.04,
-        shadowRadius: 8,
-        elevation: 2,
-        zIndex: 1,
     },
     content: {
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
     },
     hero: {
-        paddingTop: 16,
-        paddingBottom: 24,
-        alignItems: 'center',
+        marginTop: 12,
+        marginBottom: 18,
+        paddingVertical: 22,
+        paddingHorizontal: 18,
+        borderRadius: 24,
+        backgroundColor: colors.surfaceLowest,
+        alignItems: 'flex-start',
         overflow: 'hidden',
+        borderWidth: 1,
+        borderColor: colors.surfaceHigh,
+        shadowColor: colors.primary,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.06,
+        shadowRadius: 14,
+        elevation: 2,
     },
     glowOrange: {
         position: 'absolute',
-        top: -48,
-        left: '50%',
-        marginLeft: -96,
-        width: 192,
-        height: 192,
-        borderRadius: 96,
-        backgroundColor: 'rgba(254, 107, 0, 0.10)',
+        top: -50,
+        right: -30,
+        width: 160,
+        height: 160,
+        borderRadius: 80,
+        backgroundColor: 'rgba(254, 107, 0, 0.12)',
     },
     glowBlue: {
         position: 'absolute',
-        top: 40,
-        right: 8,
-        width: 128,
-        height: 128,
-        borderRadius: 64,
-        backgroundColor: 'rgba(184, 199, 230, 0.35)',
+        bottom: -40,
+        left: -20,
+        width: 130,
+        height: 130,
+        borderRadius: 65,
+        backgroundColor: 'rgba(251, 146, 60, 0.12)',
     },
     brandRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 4,
-        marginBottom: 8,
+        gap: 10,
+        marginBottom: 12,
     },
     emblem: {
-        width: 48,
-        height: 48,
-        borderRadius: 12,
-        backgroundColor: colors.primaryContainer,
+        width: 50,
+        height: 50,
+        borderRadius: 16,
+        backgroundColor: colors.secondaryContainer,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: colors.primaryContainer,
+        shadowColor: colors.secondaryContainer,
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
+        shadowOpacity: 0.25,
+        shadowRadius: 8,
         elevation: 4,
     },
-    emblemGlyph: {
-        width: 26,
-        height: 26,
-        alignItems: 'center',
-    },
-    emblemChevron: {
-        position: 'absolute',
-        bottom: 0,
-        width: 0,
-        height: 0,
-        borderLeftWidth: 13,
-        borderRightWidth: 13,
-        borderTopWidth: 20,
-        borderLeftColor: 'transparent',
-        borderRightColor: 'transparent',
-        borderTopColor: colors.secondaryContainer,
-    },
-    emblemNotch: {
-        position: 'absolute',
-        bottom: 7,
-        width: 0,
-        height: 0,
-        borderLeftWidth: 7,
-        borderRightWidth: 7,
-        borderTopWidth: 11,
-        borderLeftColor: 'transparent',
-        borderRightColor: 'transparent',
-        borderTopColor: colors.primaryContainer,
-    },
-    emblemDot: {
-        position: 'absolute',
-        top: 0,
-        width: 6,
-        height: 6,
-        borderRadius: 3,
-        backgroundColor: colors.onPrimary,
-    },
     brandText: {
-        paddingLeft: 4,
+        paddingLeft: 2,
     },
     brandNameRow: {
         flexDirection: 'row',
@@ -472,22 +435,22 @@ const styles = StyleSheet.create({
         gap: 6,
     },
     brandName: {
-        fontSize: 18,
-        lineHeight: 20,
-        fontWeight: '600',
-        letterSpacing: -0.3,
-        color: colors.primaryContainer,
+        fontSize: 20,
+        lineHeight: 24,
+        fontWeight: '800',
+        letterSpacing: 0.4,
+        color: colors.primary,
     },
     driveChip: {
-        paddingHorizontal: 6,
+        paddingHorizontal: 8,
         paddingVertical: 2,
-        borderRadius: 999,
+        borderRadius: 8,
         backgroundColor: colors.secondaryFixed,
     },
     driveChipText: {
         fontSize: 10,
         lineHeight: 14,
-        fontWeight: '700',
+        fontWeight: '800',
         letterSpacing: 0.8,
         textTransform: 'uppercase',
         color: colors.onSecondaryFixed,
@@ -496,67 +459,63 @@ const styles = StyleSheet.create({
         marginTop: 2,
         fontSize: 12,
         lineHeight: 16,
-        fontWeight: '500',
-        letterSpacing: 0.4,
-        color: colors.onSurfaceVariant,
+        fontWeight: '600',
+        color: colors.outline,
     },
     accessPill: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 6,
-        marginTop: 8,
-        marginBottom: 16,
-        paddingHorizontal: 12,
+        marginBottom: 12,
+        paddingHorizontal: 10,
         paddingVertical: 4,
-        borderRadius: 999,
-        backgroundColor: colors.surfaceHigh,
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-        elevation: 1,
+        borderRadius: 8,
+        backgroundColor: colors.surfaceLow,
+        borderWidth: 1,
+        borderColor: colors.surfaceHigh,
     },
     accessDot: {
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: colors.secondaryContainer,
+        backgroundColor: colors.secondary,
     },
     accessText: {
-        fontSize: 12,
-        lineHeight: 16,
-        fontWeight: '600',
-        letterSpacing: 0.6,
+        fontSize: 11,
+        lineHeight: 15,
+        fontWeight: '700',
+        letterSpacing: 0.5,
         textTransform: 'uppercase',
-        color: colors.onSurface,
+        color: colors.primaryContainer,
     },
     heading: {
-        fontSize: 26,
-        lineHeight: 34,
+        fontSize: 24,
+        lineHeight: 30,
         fontWeight: '800',
-        letterSpacing: -0.5,
+        letterSpacing: -0.4,
         color: colors.primary,
-        textAlign: 'center',
-        marginBottom: 4,
+        textAlign: 'left',
+        marginBottom: 6,
     },
     subtitle: {
-        maxWidth: 280,
-        fontSize: 14,
-        lineHeight: 20,
-        fontWeight: '400',
+        fontSize: 13,
+        lineHeight: 19,
+        fontWeight: '500',
         color: colors.onSurfaceVariant,
-        textAlign: 'center',
+        textAlign: 'left',
     },
     formCard: {
         backgroundColor: colors.surfaceLowest,
-        borderRadius: 16,
-        padding: 16,
+        borderRadius: 24,
+        padding: 20,
         gap: 16,
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.06,
-        shadowRadius: 3,
-        elevation: 1,
+        borderWidth: 1,
+        borderColor: colors.surfaceHigh,
+        shadowColor: colors.primary,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.07,
+        shadowRadius: 16,
+        elevation: 3,
     },
     fieldBlock: {
         gap: 6,
@@ -569,29 +528,30 @@ const styles = StyleSheet.create({
     },
     label: {
         flexShrink: 1,
-        fontSize: 12,
+        fontSize: 11,
         lineHeight: 16,
-        fontWeight: '600',
-        letterSpacing: 0.2,
-        color: colors.onSurface,
+        fontWeight: '700',
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
+        color: colors.primaryContainer,
     },
     hint: {
-        fontSize: 12,
+        fontSize: 11,
         lineHeight: 16,
-        fontWeight: '400',
+        fontWeight: '600',
         color: colors.outlineVariant,
     },
     inputShell: {
-        height: 48,
-        borderRadius: 12,
-        backgroundColor: colors.surfaceLowest,
+        height: 50,
+        borderRadius: 14,
+        backgroundColor: colors.surfaceLow,
         borderWidth: 1.5,
-        borderColor: 'rgba(117, 119, 126, 0.25)',
+        borderColor: colors.surfaceHigh,
         justifyContent: 'center',
     },
     inputShellFocused: {
-        backgroundColor: colors.surfaceLow,
-        borderColor: colors.primaryContainer,
+        backgroundColor: colors.surfaceLowest,
+        borderColor: colors.secondaryContainer,
     },
     inputIcon: {
         position: 'absolute',
@@ -630,7 +590,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 8,
-        paddingTop: 4,
+        paddingTop: 2,
     },
     remember: {
         flexDirection: 'row',
@@ -641,31 +601,31 @@ const styles = StyleSheet.create({
     checkbox: {
         width: 20,
         height: 20,
-        borderRadius: 4,
+        borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: colors.surfaceContainer,
     },
     checkboxOn: {
-        backgroundColor: colors.primaryContainer,
+        backgroundColor: colors.secondaryContainer,
     },
     rememberText: {
         flexShrink: 1,
         fontSize: 12,
         lineHeight: 16,
+        fontWeight: '500',
         color: colors.onSurfaceVariant,
     },
     forgot: {
         fontSize: 12,
         lineHeight: 16,
-        fontWeight: '600',
-        letterSpacing: 0.2,
-        color: colors.secondary,
+        fontWeight: '700',
+        color: colors.secondaryContainer,
     },
     loginButton: {
-        height: 52,
+        height: 54,
         marginTop: 4,
-        borderRadius: 12,
+        borderRadius: 16,
         backgroundColor: colors.secondaryContainer,
         flexDirection: 'row',
         alignItems: 'center',
@@ -673,14 +633,14 @@ const styles = StyleSheet.create({
         gap: 8,
         shadowColor: colors.secondaryContainer,
         shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.25,
-        shadowRadius: 12,
+        shadowOpacity: 0.3,
+        shadowRadius: 14,
         elevation: 4,
     },
     loginLabel: {
-        fontSize: 18,
-        lineHeight: 24,
-        fontWeight: '600',
+        fontSize: 16,
+        lineHeight: 22,
+        fontWeight: '700',
         color: colors.onPrimary,
     },
     pressed: {
@@ -696,40 +656,36 @@ const styles = StyleSheet.create({
     },
     faceButton: {
         height: 48,
-        marginTop: 16,
-        borderRadius: 12,
-        backgroundColor: colors.surfaceLow,
+        marginTop: 14,
+        borderRadius: 14,
+        backgroundColor: colors.surfaceLowest,
+        borderWidth: 1,
+        borderColor: colors.surfaceHigh,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
         paddingHorizontal: 16,
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-        elevation: 1,
     },
     faceIcon: {
         width: 28,
         height: 28,
-        borderRadius: 14,
+        borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(15, 30, 54, 0.10)',
+        backgroundColor: colors.surfaceHigh,
     },
     faceLabel: {
         flex: 1,
-        fontSize: 14,
-        lineHeight: 20,
+        fontSize: 13,
+        lineHeight: 18,
         fontWeight: '600',
-        letterSpacing: 0.1,
         color: colors.onSurface,
     },
     divider: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
-        marginVertical: 24,
+        marginVertical: 20,
     },
     dividerLine: {
         flex: 1,
@@ -737,53 +693,48 @@ const styles = StyleSheet.create({
         backgroundColor: colors.surfaceHighest,
     },
     dividerText: {
-        fontSize: 12,
+        fontSize: 11,
         lineHeight: 16,
-        fontWeight: '600',
+        fontWeight: '700',
         letterSpacing: 0.8,
         textTransform: 'uppercase',
         color: colors.outline,
     },
     socialRow: {
         flexDirection: 'row',
-        gap: 8,
+        gap: 10,
     },
     socialButton: {
         flex: 1,
         height: 48,
-        borderRadius: 12,
+        borderRadius: 14,
         backgroundColor: colors.surfaceLowest,
+        borderWidth: 1,
+        borderColor: colors.surfaceHigh,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.06,
-        shadowRadius: 3,
-        elevation: 1,
     },
     socialLabel: {
         fontSize: 14,
         lineHeight: 20,
         fontWeight: '600',
-        letterSpacing: 0.1,
         color: colors.onSurface,
     },
     signup: {
-        marginTop: 24,
+        marginTop: 20,
         marginBottom: 8,
-        fontSize: 14,
+        fontSize: 13,
         lineHeight: 20,
         color: colors.onSurfaceVariant,
         textAlign: 'center',
     },
     signupLink: {
-        fontSize: 14,
+        fontSize: 13,
         lineHeight: 20,
-        fontWeight: '700',
-        letterSpacing: 0.1,
-        color: colors.secondary,
+        fontWeight: '800',
+        color: colors.secondaryContainer,
     },
     seal: {
         flexDirection: 'row',
@@ -791,15 +742,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 6,
         paddingTop: 4,
-        opacity: 0.8,
+        opacity: 0.85,
     },
     sealText: {
         flexShrink: 1,
-        fontSize: 10,
+        fontSize: 11,
         lineHeight: 14,
-        fontWeight: '500',
-        letterSpacing: 0.4,
+        fontWeight: '600',
         color: colors.outline,
     },
 });
-

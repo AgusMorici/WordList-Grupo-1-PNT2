@@ -57,7 +57,15 @@ const words = Array.from({ length: MAX_WORDS }, (_, index) => crearPalabra(index
 
 const getWords = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/words`);
+        // CAMBIO: leer el token de la sesión guardada
+        const authData = await getData(AUTH_KEY);
+        const token = authData?.token;
+
+        // CAMBIO: pedir solo las palabras del usuario logueado
+        const response = await fetch(`${BASE_URL}/users/me/words`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
         if (!response.ok) {
             throw new Error("Failed to fetch words");
         }

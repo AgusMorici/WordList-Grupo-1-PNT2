@@ -20,6 +20,8 @@ const getIcon = (routeName, color, size) => {
             return <Ionicons name="game-controller-outline" color={color} size={size} />;
         case 'favorites':
             return <Ionicons name="heart-outline" color={color} size={size} />;
+        case 'profile':
+            return <Ionicons name="log-out-outline" color={color} size={size} />; // CAMBIO: ícono de salir
     }
     return <Ionicons name="home" color={color} size={size} />;
 };
@@ -51,6 +53,7 @@ export default function TabsLayout() {
             <Tabs.Screen name="register" options={{ title: 'Agregar' }} />
             <Tabs.Screen name="game" options={{ title: 'Juego' }} />
             <Tabs.Screen name="favorites" options={{ title: 'Favoritos' }} />
+            <Tabs.Screen name="profile" options={{ title: 'Cerrar sesión' }} />
         </Tabs>
     );
 }

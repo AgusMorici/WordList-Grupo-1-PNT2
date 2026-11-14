@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { getWords, getUserGameStats } from '../../services/words';
 import HomeFlatList from '../../components/HomeFlatList';
+import ProgressHeader from '../../components/ProgressHeader';
 
 const Index = () => {
   const [words, setWords] = useState([]);
@@ -25,7 +26,8 @@ const Index = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HomeFlatList words={words} gameStats={gameStats} />
+      <ProgressHeader gameStats={gameStats} />
+      <HomeFlatList words={words} />
     </SafeAreaView>
   );
 };
